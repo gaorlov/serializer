@@ -1,8 +1,7 @@
 import unittest
 import serializer
 from serializer.serializer import Serializer
-from serializer.value_attribute import ValueAttribute
-from serializer.attribute import Attribute
+from serializer.attribute import Attribute, ValueAttribute
 
 
 class BaseModel():
@@ -17,21 +16,48 @@ class BaseModel():
   def func_var( self ):
     return "funk"
 
+class OtherModel():
+
+  def __init__( self ):
+    self.attr       = "string"
+    self.lol        = 6
+    self.something  = [1, 2, "string"]
+    self.wonderful  = { 'key' : 'value' }
+    self.here       = "poops"
+
+  def func( self ):
+    return "lol"
+
+class ComplexModel():
+
+  def __init__( self ):
+    self.base   = BaseModel()
+    self.others = [ OtherModel(), OtherModel() ]
+
+
 class BaseSerializer(Serializer):
-  from serializer.serializer import Serializer as s
+  pass
 
-  s.attribute( 'string_var' )
-  s.attribute( 'int_var' )
-  s.attribute( 'dict_var' )
-  s.attribute( 'arr_var' )
-  s.attribute( 'keyed_var', { 'key': 'serialized_name' } )
-  s.attribute( 'func_var' )
+BaseSerializer.attribute( 'string_var' )  \
+              .attribute( 'int_var' )     \
+              .attribute( 'dict_var' )    \
+              .attribute( 'arr_var' )     \
+              .attribute( 'keyed_var', { 'key': 'serialized_name' } ) \
+              .attribute( 'func_var' )
 
-class AdvancedSerializer(Serializer):
-  from serializer.serializer import Serializer as s
+class OtherSerializer(Serializer):
+  pass
 
-  s.attributes( 'string_var',
-                'int_var',
-                'dict_var',
-                'arr_var',
-                'func_var' )
+OtherSerializer.attributes( 'attr',
+                            'lol',
+                            'something',
+                            'func',
+                            'here' ) \
+               .attribute( 'wonderful' )
+              
+
+class ComplexSerializer(Serializer):
+  pass
+
+ComplexSerializer.has_one( 'base', { 'serializer': BaseSerializer } )
+ComplexSerializer.has_many( 'others', { 'serializer': OtherSerializer } )
