@@ -2,12 +2,6 @@
 
 This is an attempt at a simple Python port of [ActiveModel::Serializer](https://github.com/rails-api/active_model_serializers). It's a bit minimal at the moment, but any contributions are welcome.
 
-## Installation
-
-You can install this using `pip` as:
-
-    $ pip install serializer
-
 ## Usage
 
 
