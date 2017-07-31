@@ -1,5 +1,7 @@
 # Serializer
 
+[![Build Status](https://travis-ci.org/gaorlov/serializer.svg?branch=master)](https://travis-ci.org/gaorlov/serializer)
+
 This is an attempt at a simple Python port of [ActiveModel::Serializer](https://github.com/rails-api/active_model_serializers). It's a bit minimal at the moment, but any contributions are welcome.
 
 ## Usage
@@ -8,7 +10,7 @@ If you have an object that you want to render as JSON and don't necessarily want
 
 ### Single Object Serialization
 
-Usually you would define a serializer per object class, as
+Usually you would define one or more serializer per object class:
 
 ```python
   class MyObjectSerialzer( Serializer ):
@@ -21,13 +23,13 @@ Usually you would define a serializer per object class, as
   MyObjectSerializer.attributes( 'list', 'of', 'attributes' )
 ```
 
-and then in your rendering, you would init a new serializer with the object you want serialized, as
+and then in your rendering, you would init a new serializer with the object you want serialized:
 
 ```python
   obj = MyObject( ) # whatever this is
   json = MyObjectSerializer( obj ).to_json()
 
-  return json # or whatever your rendering is
+  return json # or whatever your rendering logic is
 ```
 
 You can also render the object to a dictionary, if you want
