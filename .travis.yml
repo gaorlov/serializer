@@ -2,5 +2,4 @@ language: python
 python:
   - "3.6"
 install: "pip install -r test/requirements.txt"
-nosetests tests/*.py
-script: pytest
+script: nosetests tests/*.py
