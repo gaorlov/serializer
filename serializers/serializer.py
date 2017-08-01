@@ -3,19 +3,23 @@ from serializers.association import HasOneAssociation, HasManyAssociation
 
 import json
 
+class SerializerMeta(type):
+  def __init__(cls, name, bases, dct):
+    super(SerializerMeta, cls).__init__(name, bases, dct)
+    cls._attributes = {}
+
 class Serializer(object):
 
-  __attributes = {}
+  __metaclass__ = SerializerMeta
+
+  _attributes = {}
 
   def __init__( self, object ):
     self.object = object
 
-  def __init_subclass__(cls, **kwargs):
-      cls.__attributes = {}
-
   def to_dict( self ):
     blob = {}
-    for attribute in self.__class__.__attributes.values( ):
+    for attribute in self.__class__._attributes.values( ):
       blob[ attribute.key( ) ] = attribute.value_for( self.object )
 
     return blob
@@ -41,14 +45,14 @@ class Serializer(object):
   @classmethod
   def has_one( cls, name, options = {} ):
     if options.get( 'serializer', None ) == None:
-      raise Exception(f"You must specify a serializer for {cls}.{name}")
+      raise Exception("You must specify a serializer for {cls}.{name}".format(cls=cls, name=name))
 
     cls.__add_association( HasOneAssociation, name, options )
 
   @classmethod
   def has_many( cls, name, options = {} ):
     if options.get( 'serializer', None ) == None:
-      raise Exception(f"You must specify a serializer for {cls}.{name}")
+      raise Exception("You must specify a serializer for {cls}.{name}".format(cls=cls, name=name))
 
     cls.__add_association( HasManyAssociation, name, options )
 
@@ -56,8 +60,8 @@ class Serializer(object):
 
   @classmethod
   def __add_attribute( cls, name, options = {} ):
-    cls.__attributes[ name ] = ValueAttribute( cls, name, options )
+    cls._attributes[ name ] = ValueAttribute( cls, name, options )
 
   @classmethod
   def __add_association( cls, association, name, options = {} ):
-    cls.__attributes[ name ] = association( cls, name, options )
+    cls._attributes[ name ] = association( cls, name, options )

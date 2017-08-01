@@ -3,7 +3,7 @@ from itertools import starmap
 
 class Association(Attribute):
   def __init__( self, parent, name, options = {} ):
-    super().__init__( parent, name, options )
+    super(Association, self).__init__( parent, name, options )
     self.serializer = options[ 'serializer' ]
 
   #private
