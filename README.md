@@ -78,7 +78,45 @@ If you have an object that has subobjects you want custom serialized, you can de
                                         #       ]
                                         #     }
 ```
+### Optional Parameter Passing & Serializer Methods
 
+Because the serializer object is now the external interface definition for your object separate from it, it makes sense you would be able to define custom serialization methods for your objects. And you can. 
+
+```python
+  class PersonSerializer(Serializer):
+
+    @classmethod
+    def formatted_name( cls, item, args ):
+      return f"{item.title} {item.first_name} {item.last_name} {item.suffix}"
+
+    # in case you were wondering about the args in that method, that's so that you can pass in additional data into the serializer
+    @classmethod
+    def timezones_from_you( cls, item, args ):
+      zone = timezone( args.get('timezone', "UTC") )
+      
+      return item.timezone - zone
+
+  PersonSerializer.attributes(  'formatted_name ',
+                                'timezones_from_you' )
+```
+
+With this, you can, in your controller, do
+
+```python
+  def show( self, args ):
+    person = Person.find( args[ 'person_id' ] )
+    return PersonSerializer( person, args ).to_json()
+```
+
+which should render something along the lines of
+
+```json
+{ "formatted_name" : "Mr. Bob Dobalina Sr. III",
+  "timezones_from_you": -3 }
+```
+
+
+  
 
 ### Example
 
@@ -102,10 +140,19 @@ If you have an object that has subobjects you want custom serialized, you can de
 
   ModelSerializer.attributes( 'public_data', 'func' )
                  .attribute( 'rename_me', { 'key': 'reanamed_var' } ) \
+                 .has_many( 'children', { 'serializer' : ChildSerializer } )
 
   ModelSerializer( Model() ).to_json() # => '{  "func" : "reslt of a function"
                                        #        "public_data": "stuff here",
                                        #        "reanamed_var": "i have been renamed!"
+                                       #        "children": [
+                                       #          { "name": "Jim",
+                                       #            "ordinal": "first"
+                                       #          },
+                                       #          { "name": "Jamie",
+                                       #            "ordinal": "second"
+                                       #         },
+                                       #       ]
                                        #     }'
 
 ```

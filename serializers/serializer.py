@@ -7,8 +7,9 @@ class Serializer(object):
 
   __attributes = {}
 
-  def __init__( self, object ):
+  def __init__( self, object, args = {} ):
     self.object = object
+    self.args = args
 
   def __init_subclass__(cls, **kwargs):
       cls.__attributes = {}
@@ -16,7 +17,7 @@ class Serializer(object):
   def to_dict( self ):
     blob = {}
     for attribute in self.__class__.__attributes.values( ):
-      blob[ attribute.key( ) ] = attribute.value_for( self.object )
+      blob[ attribute.key( ) ] = attribute.value_for( self.object, self.args )
 
     return blob
 
