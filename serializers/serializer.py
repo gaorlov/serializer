@@ -14,13 +14,13 @@ class Serializer(object):
 
   _attributes = {}
 
-  def __init__( self, object ):
-    self.object = object
+  def __init__( self, model):
+    self.model = model
 
   def to_dict( self ):
     blob = {}
     for attribute in self.__class__._attributes.values( ):
-      blob[ attribute.key( ) ] = attribute.value_for( self.object )
+      blob[ attribute.key( ) ] = attribute.value_for( self.model )
 
     return blob
 

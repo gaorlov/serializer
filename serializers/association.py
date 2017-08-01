@@ -8,28 +8,28 @@ class Association(Attribute):
 
   #private
 
-  def _dict_for( self, object ):
-    return self.serializer( object ).to_dict()
+  def _dict_for( self, item):
+    return self.serializer( item ).to_dict()
 
 class HasOneAssociation(Association):
 
-  def value_for( self, object ):
+  def value_for( self, item ):
     # get the object to serialize      
-    assoc = getattr( object, self.name )
+    assoc_item = getattr( item, self.name )
 
-    if (isinstance( assoc, list )):
+    if (isinstance( assoc_item, list )):
       raise Exception("has_one associations must be applied to a single object, not a list")
     # serialize the object and get its to_dict
-    return self._dict_for( assoc )
+    return self._dict_for( assoc_item )
 
 class HasManyAssociation(Association):
 
-  def value_for( self, objects ):
+  def value_for( self, items ):
     # get the objects to serialize      
-    assocs = getattr( objects, self.name )
+    assoc_items = getattr( items, self.name )
 
-    if not ( isinstance( assocs, list ) ):
+    if not ( isinstance( assoc_items, list ) ):
       raise Exception("has_many associations must be applied to a list")
     
     # serialize the objects and get their to_dict
-    return [ self._dict_for( obj ) for obj in assocs ]
+    return [ self._dict_for( item ) for item in assoc_items ]
