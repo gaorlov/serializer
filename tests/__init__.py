@@ -1,7 +1,7 @@
 import unittest
-import serializer
-from serializer.serializer import Serializer
-from serializer.attribute import Attribute, ValueAttribute
+import serializers
+from serializers.serializer import Serializer
+from serializers.attribute import Attribute, ValueAttribute
 
 
 class BaseModel():

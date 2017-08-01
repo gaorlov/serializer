@@ -1,4 +1,4 @@
-from serializer.serializer import Serializer
+from serializers.serializer import Serializer
 import tests
 from tests import BaseModel, OtherModel, BaseSerializer, OtherSerializer
 

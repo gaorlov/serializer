@@ -1,4 +1,4 @@
-from serializer.attribute import Attribute
+from serializers.attribute import Attribute
 from itertools import starmap
 
 class Association(Attribute):

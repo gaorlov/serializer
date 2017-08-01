@@ -1,5 +1,5 @@
-from serializer.attribute import ValueAttribute
-from serializer.association import HasOneAssociation, HasManyAssociation
+from serializers.attribute import ValueAttribute
+from serializers.association import HasOneAssociation, HasManyAssociation
 
 import json
 

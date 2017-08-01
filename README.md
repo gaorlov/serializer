@@ -1,8 +1,14 @@
-# Serializer
+# Serializers
 
 [![Build Status](https://travis-ci.org/gaorlov/serializer.svg?branch=master)](https://travis-ci.org/gaorlov/serializer)
 
-This is an attempt at a simple Python port of [ActiveModel::Serializer](https://github.com/rails-api/active_model_serializers). It's a bit minimal at the moment, but any contributions are welcome.
+This is an attempt at a simple Python port of [ActiveModel::Serializers](https://github.com/rails-api/active_model_serializers). It's a bit minimal at the moment, but any contributions are welcome.
+
+## Installation
+
+All you have to do is run:
+
+    $ pip install serializers
 
 ## Usage
 

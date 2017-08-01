@@ -1,2 +1,10 @@
 /**/__pycache__
+build/
+dist/
+*.egg-info/
+*.egg
+*.py[cod]
+*.so
+*~
+*.py[cod]
 .python-version
