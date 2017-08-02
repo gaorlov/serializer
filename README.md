@@ -93,7 +93,7 @@ Because the serializer object is now the external interface definition for your 
     @classmethod
     def timezones_from_you( cls, item, args ):
       zone = timezone( args.get('timezone', "UTC") )
-      
+      # let's pretend this is a thing you can do
       return item.timezone - zone
 
   PersonSerializer.attributes(  'formatted_name ',
@@ -114,9 +114,6 @@ which should render something along the lines of
 { "formatted_name" : "Mr. Bob Dobalina Sr. III",
   "timezones_from_you": -3 }
 ```
-
-
-  
 
 ### Example
 
