@@ -61,3 +61,21 @@ class ComplexSerializer(Serializer):
 
 ComplexSerializer.has_one( 'base', { 'serializer': BaseSerializer } )
 ComplexSerializer.has_many( 'others', { 'serializer': OtherSerializer } )
+
+
+class MethodizedSerializer(Serializer):
+
+  @classmethod
+  def custom_field( self, object, args = {} ):
+    return object.here
+
+  @classmethod
+  def custom_field_with_args( self, object, args = {} ):
+    ret = "object.here:" + object.here
+    if args:
+      ret += ", args['lol']:" + args.get('lol')
+
+    return ret
+
+MethodizedSerializer.attributes(  'custom_field',
+                                  'custom_field_with_args' )

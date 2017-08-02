@@ -13,7 +13,7 @@ class Association(Attribute):
 
 class HasOneAssociation(Association):
 
-  def value_for( self, item ):
+  def value_for( self, item, args ):
     # get the object to serialize      
     assoc_item = getattr( item, self.name )
 
@@ -24,7 +24,7 @@ class HasOneAssociation(Association):
 
 class HasManyAssociation(Association):
 
-  def value_for( self, items ):
+  def value_for( self, items, args ):
     # get the objects to serialize      
     assoc_items = getattr( items, self.name )
 
