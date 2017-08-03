@@ -1,6 +1,8 @@
 from serializers.attribute import ValueAttribute
 from serializers.association import HasOneAssociation, HasManyAssociation
 
+from future.utils import with_metaclass
+
 import json
 
 class SerializerMeta(type):
@@ -8,9 +10,7 @@ class SerializerMeta(type):
     super(SerializerMeta, cls).__init__(name, bases, dct)
     cls._attributes = {}
 
-class Serializer(object):
-
-  __metaclass__ = SerializerMeta
+class Serializer(with_metaclass(SerializerMeta, object)):
 
   _attributes = {}
 
