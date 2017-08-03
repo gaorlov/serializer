@@ -10,11 +10,11 @@ class Attribute(object):
 
 class ValueAttribute(Attribute):
 
-  def value_for( self, object, args = {} ):
-    if hasattr( object, self.name ):
-      val = getattr( object, self.name )
+  def value_for( self, item, args = {} ):
+    if hasattr( item, self.name ):
+      val = getattr( item, self.name )
       if callable( val ):
         val = val()
       return val 
     else:
-      return getattr( self.parent, self.name )( object, args )
+      return getattr( self.parent, self.name )( item, args )
