@@ -77,5 +77,10 @@ class MethodizedSerializer(Serializer):
 
     return ret
 
+  @classmethod
+  def keyed_custom_field_with_args( self, object, args = {} ):
+    return "lol"
+
 MethodizedSerializer.attributes(  'custom_field',
-                                  'custom_field_with_args' )
+                                  'custom_field_with_args' ) \
+                    .attribute(   'keyed_custom_field_with_args', { 'key' : 'kek' } )
