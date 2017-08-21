@@ -1,9 +1,9 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 import serializers
 
 thing = setup(
   name = serializers.__title__,
-  packages = ['serializers', 'serializers.serializer'],
+  packages=find_packages(),
   version = serializers.__version__,
   description = 'A minimal port of rails\' ActiveModel Serializer',
   author = 'Greg Orlov',
