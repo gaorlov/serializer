@@ -1,7 +1,6 @@
 import unittest
 import serializers
 from serializers.serializer import Serializer
-from serializers.attribute import Attribute, ValueAttribute
 
 
 class BaseModel():
@@ -42,7 +41,7 @@ BaseSerializer.attribute( 'string_var' )  \
               .attribute( 'int_var' )     \
               .attribute( 'dict_var' )    \
               .attribute( 'arr_var' )     \
-              .attribute( 'keyed_var', { 'key': 'serialized_name' } ) \
+              .attribute( 'keyed_var', key = 'serialized_name' ) \
               .attribute( 'func_var' )
 
 class OtherSerializer(Serializer):
@@ -59,8 +58,16 @@ OtherSerializer.attributes( 'attr',
 class ComplexSerializer(Serializer):
   pass
 
-ComplexSerializer.has_one( 'base', { 'serializer': BaseSerializer } )
-ComplexSerializer.has_many( 'others', { 'serializer': OtherSerializer } )
+ComplexSerializer.has_one( 'base', serializer = BaseSerializer )     \
+                 .has_many( 'others', serializer = OtherSerializer )
+
+class HyperComplexSerializer(Serializer):
+  @classmethod
+  def custom_base( cls, item, args = {} ):
+    return item.base
+
+HyperComplexSerializer.has_one( 'custom_base', serializer = BaseSerializer )     \
+                      .has_many( 'others', key = 'magic', serializer = OtherSerializer )
 
 
 class MethodizedSerializer(Serializer):
@@ -81,6 +88,11 @@ class MethodizedSerializer(Serializer):
   def keyed_custom_field_with_args( self, object, args = {} ):
     return "lol"
 
+  @classmethod
+  def func( self, object, args = {} ):
+    return "overridden func: %s" %( object.func() )
+
 MethodizedSerializer.attributes(  'custom_field',
-                                  'custom_field_with_args' ) \
-                    .attribute(   'keyed_custom_field_with_args', { 'key' : 'kek' } )
+                                  'custom_field_with_args',
+                                  'func' ) \
+                    .attribute(   'keyed_custom_field_with_args', key = 'kek' )

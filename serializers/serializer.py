@@ -1,4 +1,4 @@
-from serializers.attribute import ValueAttribute
+from serializers.attribute import Attribute
 from serializers.association import HasOneAssociation, HasManyAssociation
 
 import json
@@ -31,8 +31,8 @@ class Serializer(serializer_base):
   # class methods
 
   @classmethod
-  def attribute( cls, name, options = {} ):
-    cls.__add_attribute( name, options )
+  def attribute( cls, name, *_, **options ):
+    cls.__add_attribute( name, **options )
     
     return cls
 
@@ -44,25 +44,29 @@ class Serializer(serializer_base):
     return cls
 
   @classmethod
-  def has_one( cls, name, options = {} ):
+  def has_one( cls, name, **options ):
     if options.get( 'serializer', None ) == None:
       raise Exception("You must specify a serializer for {cls}.{name}".format(cls=cls, name=name))
 
-    cls.__add_association( HasOneAssociation, name, options )
+    cls.__add_association( HasOneAssociation, name, **options )
+
+    return cls
 
   @classmethod
-  def has_many( cls, name, options = {} ):
+  def has_many( cls, name, **options ):
     if options.get( 'serializer', None ) == None:
       raise Exception("You must specify a serializer for {cls}.{name}".format(cls=cls, name=name))
 
-    cls.__add_association( HasManyAssociation, name, options )
+    cls.__add_association( HasManyAssociation, name, **options )
+
+    return cls
 
   # private
 
   @classmethod
-  def __add_attribute( cls, name, options = {} ):
-    cls._attributes[ name ] = ValueAttribute( cls, name, options )
+  def __add_attribute( cls, name, **options ):
+    cls._attributes[ name ] = Attribute( cls, name, **options )
 
   @classmethod
-  def __add_association( cls, association, name, options = {} ):
-    cls._attributes[ name ] = association( cls, name, options )
+  def __add_association( cls, association, name, **options ):
+    cls._attributes[ name ] = association( cls, name, **options )

@@ -25,7 +25,7 @@ Usually you would define one or more serializer per object class:
   # NOTE: feel free to reach out if you have a way to move this into the class definition
 
   MyObjectSerializer.attribute( 'attribute_name' )
-  MyObjectSerializer.attribute( 'internal_name', { 'key' : 'public_name'} )
+  MyObjectSerializer.attribute( 'internal_name', key = 'public_name' )
   MyObjectSerializer.attributes( 'list', 'of', 'attributes' )
 ```
 
@@ -60,8 +60,8 @@ If you have an object that has subobjects you want custom serialized, you can de
   ParentSerializer( Serializer ):
     pass
 
-  ParentSerializer.attribute( 'name' )
-  ParentSerializer.has_many( 'children', { 'serializer' : ChildSerializer } )
+  ParentSerializer.attribute( 'name' ) \
+                  .has_many( 'children', serializer = ChildSerializer )
 
 
   parent = Parent( 'Bob' )
@@ -135,9 +135,9 @@ which should render something along the lines of
   class ModelSerializer(Serializer):
     pass
 
-  ModelSerializer.attributes( 'public_data', 'func' )
-                 .attribute( 'rename_me', { 'key': 'reanamed_var' } ) \
-                 .has_many( 'children', { 'serializer' : ChildSerializer } )
+  ModelSerializer.attributes( 'public_data', 'func' )                 \
+                 .attribute( 'rename_me', key='reanamed_var' )        \
+                 .has_many( 'children', serializer = ChildSerializer )
 
   ModelSerializer( Model() ).to_json() # => '{  "func" : "reslt of a function"
                                        #        "public_data": "stuff here",

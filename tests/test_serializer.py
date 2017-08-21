@@ -17,3 +17,7 @@ class TestSerializer:
   def test_serializer_methods_can_be_keyed( self ):
     result_dict = MethodizedSerializer( OtherModel(), { 'lol': "thing" } ).to_dict()
     assert_equals( "lol", result_dict['kek'] )
+
+  def test_serializer_methods_shadow_object_methods( self ):
+    result_dict = MethodizedSerializer( OtherModel(), { 'lol': "thing" } ).to_dict()
+    assert_equals( 'overridden func: lol', result_dict['func'] )
