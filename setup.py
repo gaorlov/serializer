@@ -3,7 +3,8 @@ import serializers
 
 thing = setup(
   name = serializers.__title__,
-  packages=find_packages(),
+  package_dir={ 'serializers': 'serializers' },
+  packages=find_packages(exclude=['tests*']),
   version = serializers.__version__,
   description = 'A minimal port of rails\' ActiveModel Serializer',
   author = 'Greg Orlov',
