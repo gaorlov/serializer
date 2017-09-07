@@ -8,8 +8,8 @@ class Association(Attribute):
 
   #private
 
-  def _dict_for( self, item):
-    return self.serializer( item ).to_dict()
+  def _dict_for( self, item, args ):
+    return self.serializer( item, args ).to_dict()
 
 class HasOneAssociation(Association):
 
@@ -20,7 +20,7 @@ class HasOneAssociation(Association):
     if (isinstance( assoc_item, list )):
       raise Exception("has_one associations must be applied to a single object, not a list")
     # serialize the object and get its to_dict
-    return self._dict_for( assoc_item )
+    return self._dict_for( assoc_item, args )
 
 class HasManyAssociation(Association):
 
@@ -32,4 +32,4 @@ class HasManyAssociation(Association):
       raise Exception("has_many associations must be applied to a list")
     
     # serialize the objects and get their to_dict
-    return [ self._dict_for( item ) for item in assoc_items ]
+    return [ self._dict_for( item, args ) for item in assoc_items ]

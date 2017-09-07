@@ -23,6 +23,7 @@ class OtherModel():
     self.something  = [1, 2, "string"]
     self.wonderful  = { 'key' : 'value' }
     self.here       = "poops"
+    self.base       = BaseModel()
 
   def func( self ):
     return "lol"
@@ -69,15 +70,22 @@ class HyperComplexSerializer(Serializer):
 HyperComplexSerializer.has_one( 'custom_base', serializer = BaseSerializer )     \
                       .has_many( 'others', key = 'magic', serializer = OtherSerializer )
 
+class PassthroughArgsMethodizedSerializer( Serializer ):
+
+  @classmethod
+  def pass_through( cls, object, args = {} ):
+    return args
+
+PassthroughArgsMethodizedSerializer.attribute( 'pass_through' )
 
 class MethodizedSerializer(Serializer):
 
   @classmethod
-  def custom_field( self, object, args = {} ):
+  def custom_field( cls, object, args = {} ):
     return object.here
 
   @classmethod
-  def custom_field_with_args( self, object, args = {} ):
+  def custom_field_with_args( cls, object, args = {} ):
     ret = "object.here:" + object.here
     if args:
       ret += ", args['lol']:" + args.get('lol')
@@ -85,14 +93,17 @@ class MethodizedSerializer(Serializer):
     return ret
 
   @classmethod
-  def keyed_custom_field_with_args( self, object, args = {} ):
+  def keyed_custom_field_with_args( cls, object, args = {} ):
     return "lol"
 
   @classmethod
-  def func( self, object, args = {} ):
+  def func( cls, object, args = {} ):
     return "overridden func: %s" %( object.func() )
 
 MethodizedSerializer.attributes(  'custom_field',
                                   'custom_field_with_args',
                                   'func' ) \
-                    .attribute(   'keyed_custom_field_with_args', key = 'kek' )
+                    .attribute(   'keyed_custom_field_with_args', key = 'kek' ) \
+                    .has_one( 'base', serializer = PassthroughArgsMethodizedSerializer )
+
+

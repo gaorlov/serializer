@@ -14,9 +14,14 @@ class TestSerializer:
     result_dict = MethodizedSerializer( OtherModel(), { 'lol': "thing" } ).to_dict()
     assert_equals( "object.here:poops, args['lol']:thing", result_dict['custom_field_with_args'] )
 
+  def test_serializer_passes_through_optional_args( self ):
+    result_dict = MethodizedSerializer( OtherModel(), { 'lol': "thing" } ).to_dict()
+    assert_equals( "object.here:poops, args['lol']:thing", result_dict['custom_field_with_args'] )
+
   def test_serializer_methods_can_be_keyed( self ):
     result_dict = MethodizedSerializer( OtherModel(), { 'lol': "thing" } ).to_dict()
     assert_equals( "lol", result_dict['kek'] )
+    assert_equals( { 'pass_through' : { 'lol': "thing" } }, result_dict['base'] )
 
   def test_serializer_methods_shadow_object_methods( self ):
     result_dict = MethodizedSerializer( OtherModel(), { 'lol': "thing" } ).to_dict()
