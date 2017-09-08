@@ -15,7 +15,7 @@ class HasOneAssociation(Association):
 
   def value_for( self, item, args ):
     # get the object to serialize      
-    assoc_item = super( Association, self ).value_for( item, self.name )
+    assoc_item = super( Association, self ).value_for( item, args )
 
     if (isinstance( assoc_item, list )):
       raise Exception("has_one associations must be applied to a single object, not a list")
@@ -26,7 +26,7 @@ class HasManyAssociation(Association):
 
   def value_for( self, items, args ):
     # get the objects to serialize      
-    assoc_items = super( Association, self ).value_for( items, self.name )
+    assoc_items = super( Association, self ).value_for( items, args )
 
     if not ( isinstance( assoc_items, list ) ):
       raise Exception("has_many associations must be applied to a list")
